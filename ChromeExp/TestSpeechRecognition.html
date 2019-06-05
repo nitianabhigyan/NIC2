@@ -20,11 +20,10 @@
 			}
 			for (var i = event.resultIndex; i < event.results.length; ++i) {
 			if (event.results[i].isFinal) {
-				interim_transcript += event.results[i][0].transcript+" in if ";
+				interim_transcript += event.results[i][0].transcript;
 			} else {
-				console.log(event.results[i]);
 				console.log(event.results[i][0]);
-				interim_transcript += event.results[i][0].transcript+" in else ";
+				interim_transcript += event.results[i][0].transcript;
 			}
 			textfield.value = interim_transcript;
 			}
@@ -60,15 +59,17 @@ var pressed = false;// to prevent multiple signal generation
 document.body.onkeydown = function(e){
     if (!(pressed)){
 		if(e.keyCode == 32){
-			console.log('Space Bar pressed down'); 
+			//console.log('Space Bar pressed down'); 
 			pressed = true;
+			start();
 		}
 	}
 }
 document.body.onkeyup = function(e){
     if(e.keyCode == 32){
-	console.log('Space Bar UP',e);
+	//console.log('Space Bar UP');
 	pressed = false;
+	stop();
     }
 }
 </script>
