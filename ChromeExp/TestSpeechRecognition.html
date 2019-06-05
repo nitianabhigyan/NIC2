@@ -11,7 +11,7 @@
 		recognition.interimResults = true;
 		recognition.lang = "en-IN";
 		recognition.onresult = function(event) { 
-			var interim_transcript = '';
+			var interim_transcript = final_tanscript= '';
 			if (typeof(event.results) == 'undefined') {
 				recognition.onend = null;
 				recognition.stop();
@@ -19,15 +19,24 @@
 				return;
 			}
 			for (var i = event.resultIndex; i < event.results.length; ++i) {
-			if (event.results[i].isFinal) {
-				interim_transcript += event.results[i][0].transcript;
-			} else {
-				console.log(event.results[i][0]);
+			if (event.results[i].isFinal) { //user stopped speaking(final utterance).
+				final_tanscript = event.results[i][0].transcript;
+				//textfield.value = final_tanscript;
+				<!-- if (event.results[i][0].confidence >= .70){ // confidence threshold value. -->
+					<!-- textfield.value = final_tanscript; -->
+					<!-- console.log("trans:",final_tanscript); -->
+				<!-- } -->
+				<!-- else{ -->
+					<!-- console.log("Detected confidence too low",event.results[i][0]); -->
+					<!-- recognition.stop(); -->
+					<!-- recognition.start(); -->
+				<!-- } -->
+			} else { // to show while speaking
 				interim_transcript += event.results[i][0].transcript;
 			}
-			textfield.value = interim_transcript;
+			//textfield.value = interim_transcript; // enable this to see as user speaks.
+			textfield.value = final_tanscript; // enable to see directly the results.
 			}
-			//textfield.value = final_transcript;
 			
 			<!-- console.log(event); -->
 			<!-- for (var i = event.resultIndex; i < event.results.length; ++i) { -->
@@ -47,10 +56,17 @@
 			StopButton.style.display = "none";
 		}
 		function start(){
+			
 			recognition.start();
 			StopButton.style.display = "block";
 			StartButton.style.display = "none";
 		}
+		
+	recognition.onerror = function(event) {
+		if (event.error == 'not-allowed') {
+			alert("Permissionfor microphone declined");
+		}
+	}
 	</script>
 
 	<p>Press SpaceBar on this document to activate the handler.</p>
