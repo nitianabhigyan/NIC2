@@ -1,0 +1,20 @@
+Required pages in the project's web app (on basis of audience opening the application):
+
+Common Folks:
+	1. Landing page( warn to use Chrome and take microphone permissions, Guidlines).
+	2.Select form page (say: a bank form / transportation dept./ telephone appln. etc).
+	3. The actual rendered form (speaking and listening)(The chatbot).
+	4. A verification page (modal) for all the details.
+	5. Message page showing(reading. NOTE: can't be autotriggered) successfull/unsuccessfull submision.
+
+Administrator:
+	1. Register a new form (and its fields) and the database to push to(when form is filled).
+	2. Check details of previously filled form.
+	3. Update existing form.
+	4. Delete existing form.
+
+
+Supported databases for Connecting (till 4/Jun/2019):
+	1. MySQL
+	2. PostgreSQL
+	3. SQlite
