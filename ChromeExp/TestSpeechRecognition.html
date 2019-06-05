@@ -1,39 +1,55 @@
 <body>
 
-<input type="text" id="textfield" style="width:100%;height:50px;">
-<script>
-	var recognition = new webkitSpeechRecognition();
-	recognition.continuous = true;
-	recognition.interimResults = true;
-	recognition.lang = "en-IN";
-	recognition.onresult = function(event) { 
-		var interim_transcript = '';
-		if (typeof(event.results) == 'undefined') {
-			recognition.onend = null;
-			recognition.stop();
-			upgrade();
-			return;
-		}
-		for (var i = event.resultIndex; i < event.results.length; ++i) {
-		if (event.results[i].isFinal) {
-			final_transcript += event.results[i][0].transcript;
-		} else {
-			final_transcript += event.results[i][0].transcript;
-		}
-		}
-		final_transcript = capitalize(final_transcript);
-		//textfield.value = linebreak(final_transcript);
-		textfield.value = linebreak(interim_transcript);
-		<!-- console.log(event); -->
-		<!-- for (var i = event.resultIndex; i < event.results.length; ++i) { -->
-			<!-- if (event.results[i].isFinal) { -->
-				<!-- textfield.value += event.results[i][0].transcript+' '; -->
-			<!-- } else { -->
-				<!-- textfield.value += event.results[i][0].transcript+' '; -->
+	<input type="text" id="textfield" style="width:100%;height:50px;">
+	<button onclick="stop()" id="StopButton" style="width:100px;height:40px;">Stop</button>
+	<br>
+	<button onclick="start()" id="StartButton" style="width:100px;height:40px;display:none;">Start Again</button>
+	<script>
+		var recognition = new webkitSpeechRecognition();
+		recognition.continuous = true;
+		recognition.interimResults = true;
+		recognition.lang = "en-IN";
+		recognition.onresult = function(event) { 
+			var interim_transcript = '';
+			if (typeof(event.results) == 'undefined') {
+				recognition.onend = null;
+				recognition.stop();
+				upgrade();
+				return;
+			}
+			for (var i = event.resultIndex; i < event.results.length; ++i) {
+			if (event.results[i].isFinal) {
+				interim_transcript += event.results[i][0].transcript;
+			} else {
+				console.log(event.results[i]);
+				console.log(event.results[i][0]);
+				interim_transcript += event.results[i][0].transcript;
+			}
+			textfield.value = linebreak(interim_transcript);
+			}
+			//textfield.value = linebreak(final_transcript);
+			
+			<!-- console.log(event); -->
+			<!-- for (var i = event.resultIndex; i < event.results.length; ++i) { -->
+				<!-- if (event.results[i].isFinal) { -->
+					<!-- textfield.value += event.results[i][0].transcript+' '; -->
+				<!-- } else { -->
+					<!-- textfield.value += event.results[i][0].transcript+' '; -->
+				<!-- } -->
 			<!-- } -->
-		<!-- } -->
-		
-	}
-	recognition.start();
-</script>
+			
+		}
+		recognition.start();
+		function stop(){
+			recognition.stop();
+			//StartButton = document.getElementById('StartButton');
+			StartButton.style.display = "block";
+			StopButton.style.display = "none";
+		}
+		function start(){
+			recognition.start();
+			StopButton.style.display = "block";
+			StartButton.style.display = "none";
+		}
+	</script>
 </body>
