@@ -7,6 +7,7 @@
 	<script>
 		var recognition = new webkitSpeechRecognition();
 		recognition.continuous = true;
+		//recognition.continuous = false; //will stop after user pauses.
 		recognition.interimResults = true;
 		recognition.lang = "en-IN";
 		recognition.onresult = function(event) { 
@@ -19,15 +20,15 @@
 			}
 			for (var i = event.resultIndex; i < event.results.length; ++i) {
 			if (event.results[i].isFinal) {
-				interim_transcript += event.results[i][0].transcript;
+				interim_transcript += event.results[i][0].transcript+" in if ";
 			} else {
 				console.log(event.results[i]);
 				console.log(event.results[i][0]);
-				interim_transcript += event.results[i][0].transcript;
+				interim_transcript += event.results[i][0].transcript+" in else ";
 			}
-			textfield.value = linebreak(interim_transcript);
+			textfield.value = interim_transcript;
 			}
-			//textfield.value = linebreak(final_transcript);
+			//textfield.value = final_transcript;
 			
 			<!-- console.log(event); -->
 			<!-- for (var i = event.resultIndex; i < event.results.length; ++i) { -->
@@ -52,4 +53,23 @@
 			StartButton.style.display = "none";
 		}
 	</script>
+
+	<p>Press SpaceBar on this document to activate the handler.</p>
+<script>
+var pressed = false;// to prevent multiple signal generation
+document.body.onkeydown = function(e){
+    if (!(pressed)){
+		if(e.keyCode == 32){
+			console.log('Space Bar pressed down'); 
+			pressed = true;
+		}
+	}
+}
+document.body.onkeyup = function(e){
+    if(e.keyCode == 32){
+	console.log('Space Bar UP',e);
+	pressed = false;
+    }
+}
+</script>
 </body>
