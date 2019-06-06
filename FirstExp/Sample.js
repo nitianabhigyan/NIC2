@@ -1,0 +1,82 @@
+var recognition = new webkitSpeechRecognition();
+recognition.continuous = true;
+//recognition.continuous = false; //will stop after user pauses.
+recognition.interimResults = true;
+recognition.lang = "en-IN";
+recognition.onresult = function(event) { 
+
+var interim_transcript = final_tanscript= '';
+if (typeof(event.results) == 'undefined') {
+	recognition.onend = null;
+	recognition.stop();
+	upgrade();
+	return;
+}
+for (var i = event.resultIndex; i < event.results.length; ++i) {
+if (event.results[i].isFinal) { //user stopped speaking(final utterance).
+	final_tanscript = event.results[i][0].transcript;
+	//textfield.value = final_tanscript;
+	// <!-- if (event.results[i][0].confidence >= .70){ // confidence threshold value. -->
+		// <!-- textfield.value = final_tanscript; -->
+		// <!-- console.log("trans:",final_tanscript); -->
+	// <!-- } -->
+	// <!-- else{ -->
+		// <!-- console.log("Detected confidence too low",event.results[i][0]); -->
+		// <!-- recognition.stop(); -->
+		// <!-- recognition.start(); -->
+	// <!-- } -->
+} else { // to show while speaking
+	interim_transcript += event.results[i][0].transcript;
+}
+//textfield.value = interim_transcript; // enable this to see as user speaks.
+textfield.value = final_tanscript; // enable to see directly the results.
+}
+
+// <!-- console.log(event); -->
+// <!-- for (var i = event.resultIndex; i < event.results.length; ++i) { -->
+	// <!-- if (event.results[i].isFinal) { -->
+		// <!-- textfield.value += event.results[i][0].transcript+' '; -->
+	// <!-- } else { -->
+		// <!-- textfield.value += event.results[i][0].transcript+' '; -->
+	// <!-- } -->
+// <!-- } -->
+
+}
+recognition.start();
+function stop(){
+	recognition.stop();
+	//StartButton = document.getElementById('StartButton');
+	StartButton.style.display = "block";
+	StopButton.style.display = "none";
+}
+function start(){
+	
+	recognition.start();
+	StopButton.style.display = "block";
+	StartButton.style.display = "none";
+}
+	
+recognition.onerror = function(event) {
+	if (event.error == 'not-allowed') {
+		alert("Permissionfor microphone declined");
+	}
+}
+	
+//for space bar
+var pressed = false;// to prevent multiple signal generation
+document.body.onkeydown = function(e){
+    if (!(pressed)){
+		if(e.keyCode == 32){
+			//console.log('Space Bar pressed down'); 
+			pressed = true;
+			start();
+		}
+	}
+}
+document.body.onkeyup = function(e){
+    if(e.keyCode == 32){
+	//console.log('Space Bar UP');
+	pressed = false;
+	stop();
+    }
+}
