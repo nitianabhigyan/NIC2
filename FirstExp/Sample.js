@@ -1,82 +1,54 @@
+var lang = "en-IN";
+var rate = 1;
+var list = null; //list.length to get the length if list at any time
+
 var recognition = new webkitSpeechRecognition();
 recognition.continuous = true;
-//recognition.continuous = false; //will stop after user pauses.
 recognition.interimResults = true;
-recognition.lang = "en-IN";
+recognition.lang = lang;
+// var u = new SpeechSynthesisUtterance();
+// u.lang = lang;
+// u.rate = rate;
+
+
+
+function beep(){
+	a=new AudioContext() // browsers limit the number of concurrent audio contexts, so you better re-use'em
+	v=a.createOscillator()
+	au=a.createGain()
+	v.connect(au)
+	v.frequency.value=610 // frequency
+	v.type="square"
+	au.connect(a.destination)
+	au.gain.value=1
+	v.start(a.currentTime)
+	v.stop(a.currentTime+.250)
+}
+function listen(obj){
+	navigator.vibrate(200); // vibrate the device if Mobile
+	console.log("entered",obj);
+	beep();
+}
+
+function speak(obj){
+	var u = new SpeechSynthesisUtterance();
+	u.lang = lang;
+	u.rate = rate;
+
+	u.text = obj.getAttribute('tospeak');
+	console.log(u);
+	speechSynthesis.speak(u);
+	u.onend = listen(obj);
+	//speechSynthesis.onend = listen(obj);
+}
+
 recognition.onresult = function(event) { 
-
-var interim_transcript = final_tanscript= '';
-if (typeof(event.results) == 'undefined') {
-	recognition.onend = null;
-	recognition.stop();
-	upgrade();
-	return;
-}
-for (var i = event.resultIndex; i < event.results.length; ++i) {
-if (event.results[i].isFinal) { //user stopped speaking(final utterance).
-	final_tanscript = event.results[i][0].transcript;
-	//textfield.value = final_tanscript;
-	// <!-- if (event.results[i][0].confidence >= .70){ // confidence threshold value. -->
-		// <!-- textfield.value = final_tanscript; -->
-		// <!-- console.log("trans:",final_tanscript); -->
-	// <!-- } -->
-	// <!-- else{ -->
-		// <!-- console.log("Detected confidence too low",event.results[i][0]); -->
-		// <!-- recognition.stop(); -->
-		// <!-- recognition.start(); -->
-	// <!-- } -->
-} else { // to show while speaking
-	interim_transcript += event.results[i][0].transcript;
-}
-//textfield.value = interim_transcript; // enable this to see as user speaks.
-textfield.value = final_tanscript; // enable to see directly the results.
+	console.log('done');
 }
 
-// <!-- console.log(event); -->
-// <!-- for (var i = event.resultIndex; i < event.results.length; ++i) { -->
-	// <!-- if (event.results[i].isFinal) { -->
-		// <!-- textfield.value += event.results[i][0].transcript+' '; -->
-	// <!-- } else { -->
-		// <!-- textfield.value += event.results[i][0].transcript+' '; -->
-	// <!-- } -->
-// <!-- } -->
-
-}
-recognition.start();
-function stop(){
-	recognition.stop();
-	//StartButton = document.getElementById('StartButton');
-	StartButton.style.display = "block";
-	StopButton.style.display = "none";
-}
-function start(){
-	
-	recognition.start();
-	StopButton.style.display = "block";
-	StartButton.style.display = "none";
-}
-	
-recognition.onerror = function(event) {
-	if (event.error == 'not-allowed') {
-		alert("Permissionfor microphone declined");
+function activate(num){
+	if(num == 0){
+		list = document.querySelectorAll('input');
 	}
-}
-	
-//for space bar
-var pressed = false;// to prevent multiple signal generation
-document.body.onkeydown = function(e){
-    if (!(pressed)){
-		if(e.keyCode == 32){
-			//console.log('Space Bar pressed down'); 
-			pressed = true;
-			start();
-		}
-	}
-}
-document.body.onkeyup = function(e){
-    if(e.keyCode == 32){
-	//console.log('Space Bar UP');
-	pressed = false;
-	stop();
-    }
+	list[num].click();
 }

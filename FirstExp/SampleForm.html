@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Sample Form Page</title>
-	<link href="./Sample.js" rel="javascript">
+	<script src="C:/Users/abhig/Desktop/NIC2/FirstExp/Sample.js"></script>
 <style>
 .textfield{
 	width:100%;
@@ -19,31 +19,41 @@
 	<div id="NameDiv" class="textfield">	
 		<span>Enter your Name</span>
 		<br>
-		<input type="text" id="Name" name="Name" tospeak="What is your name?">
+		<input type="text" id="Name" name="Name" tospeak="What is your name?" onclick="speak(this)">
 	</div>
 	
 	<div id="AgeDiv" class="numberfield">
 		<span>Enter your Age</span>
 		<br>
-		<input type="text" id="Age" name="Age" tospeak="What is your Age?">
+		<input type="text" id="Age" name="Age" tospeak="What is your Age?" onclick="speak(this)">
 	</div>
 	
 	<div id="AddressDiv" class="textfield">
 		<span>Enter your Address</span>
 		<br>
-		<input type="text" id="Address" name="Address" tospeak="What is your Address?">
+		<input type="text" id="Address" name="Address" tospeak="What is your Address?" onclick="speak(this)">
 	</div>
 	
 	<div id="BirthdateDiv" class="numberfield">
 		<br>
 		<span>Enter your Birth Day</span>
-		<input type="number" id="BirthDate" name="BirthDate" tospeak="What is your birth day">
+		<input type="number" id="BirthDate" name="BirthDate" tospeak="What is your birth day" onclick="speak(this)">
 		<span>Enter your Birth Month</span>
-		<input type="number" id="BirthMonth" name="BirthMonth" tospeak="What is your birth month">
+		<input type="number" id="BirthMonth" name="BirthMonth" tospeak="What is your birth month" onclick="speak(this)">
 		<span>Enter your Birth Year</span>
-		<input type="number" id="BirthYear" name="BirthYear" tospeak="What is your birth Year">
+		<input type="number" id="BirthYear" name="BirthYear" tospeak="What is your birth Year" onclick="speak(this)">
 	</div>
-	
+	<script>
+	var initiated = false;
+	document.body.onkeyup = function(e){ //space key is up.
+		if (!(initiated)){
+			activate(0);
+			initiated = true;
+		}
+		else{console.log("inside else");} // will fire for any keystroke done
+	}
+	</script> 
+	<!-- to call the instatnce for the first function -->
 	</form>
 </body>
 </html>
