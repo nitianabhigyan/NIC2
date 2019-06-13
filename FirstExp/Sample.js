@@ -1,7 +1,7 @@
-var lang = "en-IN";
+var lang = "hi-IN";
 var GlobalObj = null;
 var rate = 1;
-var list = null; //list.length to get the length if list at any time
+var num = list = null; //list.length to get the length if list at any time
 var voice = speechSynthesis.getVoices();
 var recognition = new webkitSpeechRecognition();
 var u = new SpeechSynthesisUtterance();
@@ -32,7 +32,8 @@ recognition.onresult = function(event) 	{
 			GlobalObj.value = final_tanscript;
 			GlobalObj = null;
 			recognition.stop();
-			activate(num+1);
+			num = num+1;
+			activate(num);
 		}
 	}
 }
@@ -56,6 +57,12 @@ function speak(obj){
 function activate(num){
 	if(num == 0){
 		list = document.querySelectorAll('input');
+		num = num;
 	}
-	list[num].click();
+	if (list.length > num){
+		list[num].click();
+	}
+	else{
+		console.log('Finished form');
+	}
 }
