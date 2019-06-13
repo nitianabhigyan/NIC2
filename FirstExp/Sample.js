@@ -1,4 +1,5 @@
-var lang = "hi-IN";
+var lang = "en-IN";
+//var lang = "hi-IN";
 var GlobalObj = null;
 var rate = 1;
 var num = list = null; //list.length to get the length if list at any time
